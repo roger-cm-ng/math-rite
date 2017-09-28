@@ -19,7 +19,7 @@ class Reload extends Component {
   render() {
     return (
       <div className={`hwrld ${this.props.css.hwrld}`} >
-        <h1>Reload</h1>
+        <h1>Reload 2</h1>
       </div>
     );
   }
