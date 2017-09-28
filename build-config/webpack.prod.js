@@ -42,7 +42,8 @@ module.exports = {
 			commons.loadersStyle(),
 			commons.loadersJson(),
 			commons.loadersStringReplace(/\+\+BASE_URL\+\+/ig, baseUrl),
-      commons.loadersStringStrip('console.log')
+      commons.loadersStringStrip('console.log'),
+			commons.loadersSvg()
 		]
 	}
 }

@@ -34,7 +34,8 @@ module.exports = {
 			commons.loadersStyle(),
 			commons.loadersStyleGlobal(),
 			commons.loadersJson(),
-			commons.loadersStringReplace(/\+\+BASE_URL\+\+/ig, baseUrl)
+			commons.loadersStringReplace(/\+\+BASE_URL\+\+/ig, baseUrl),
+			commons.loadersSvg()
 		]
 	}
 }

@@ -11,3 +11,4 @@ exports.loadersStyleGlobal = require('./loaders-style-global');
 exports.loadersJson = require('./loaders-json');
 exports.loadersStringReplace = require('./loaders-string-replace');
 exports.loadersStringStrip = require('./loaders-string-strip');
+exports.loadersSvg = require('./loaders-svg');
