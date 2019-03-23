@@ -1,22 +1,31 @@
 import express from 'express';
 import path from 'path';
 import routes from './routes/index';
+import http from 'http';
+import socketIo from 'socket.io';
 
 const app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const server = http.Server(app);
+const io = socketIo(server);
+
+app.set('port', process.env.PORT || 3000);
+var debug = require('debug')('rapid-prototype');
+server.listen(app.get('port'), app.get('ip'), () => {
+  console.log(`Server is running on port 3000`);
+  debug('Express server listening on port ' + server.address().port);
+});
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use('/', routes);
 
-io.on('connection', function(socket){
-  console.log('a user connected');
+io.on('connection', (socket) => {
+  console.log('user connected');
+  socket.emit('message', { roger: 'hey how are you?' });
+  socket.on('another event', (data) => {
+    console.log(data);
+  });
 });
-
-// http.listen(3000, function(){
-//   console.log('listening on *:3000');
-// });
 
 module.exports = app;
