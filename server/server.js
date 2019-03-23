@@ -9,10 +9,8 @@ const server = http.Server(app);
 const io = socketIo(server);
 
 app.set('port', process.env.PORT || 3000);
-var debug = require('debug')('rapid-prototype');
 server.listen(app.get('port'), app.get('ip'), () => {
   console.log(`Server is running on port 3000`);
-  debug('Express server listening on port ' + server.address().port);
 });
 
 app.set('views', path.join(__dirname, 'views'));
