@@ -1,63 +1,28 @@
 import express from 'express';
-import compression from 'compression';
+import http from 'http';
+import socketIo from 'socket.io';
 import path from 'path';
-// import favicon from 'serve-favicon';
-import logger from 'morgan';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
+
 import routes from './routes/index';
-import api from './routes/api';
+
 const app = express();
+const server = http.Server(app);
+const io = socketIo(server);
+const port = 3000;
 
-// gzip
-app.use(compression()); //use compression
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, '..', 'public/favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
 app.use('/', routes);
-app.use('/api', api);
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+io.on('connection', (socket) => {
+  console.log('user connected');
+  socket.emit('message', { roger: 'hey how are you?'});
+  socket.on('another event', (data) => {
+    console.log(data);
+  });
 });
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use((err, req, res) => {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use((err, req, res) => {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
-
-module.exports = app;
