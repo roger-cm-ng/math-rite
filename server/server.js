@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import express from 'express';
+import compression from 'compression';
 import path from 'path';
 import http from 'http';
 import socketIo from 'socket.io';
@@ -9,6 +10,9 @@ const port = 3000;
 const app = express();
 const server = http.Server(app);
 const io = socketIo(server);
+
+app.use(compression()); //use compression
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.set('port', process.env.PORT || port);
 server.listen(app.get('port'), app.get('ip'), () => {

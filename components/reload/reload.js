@@ -1,41 +1,28 @@
 import React, { Component } from 'react';
 import styleable from 'react-styleable';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import '../../styles/core.scss';
+// import PropTypes from 'prop-types';
 import css from './reload.scss';
-import BigCard from '../big-card/big-card';
-import ThumbCards from '../thumb-cards/thumb-cards';
 
 @styleable(css)
 class Reload extends Component {
-  static propTypes= {
-		bigCardReducer: PropTypes.string
-	};
+  // static propTypes= {};
 
   componentWillUpdate() {}
 
   render() {
-		const { bigCardReducer } = this.props;
-
     return (
-      <div className={css.hwrld} >
-        {
-					bigCardReducer ? (
-						<BigCard />
-					) : (
-						<ThumbCards />
-					)
-				}
+      <div className={css.reload}>
+        <h1>Reload</h1>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-	return {
-    bigCardReducer: state.bigCardReducer
-	};
-}
+// function mapStateToProps(state) {
+//   return {
+//     bigCardReducer: state.bigCardReducer
+//   };
+// }
 
-export default connect(mapStateToProps, null)(Reload);
+export default connect(null, null)(Reload);

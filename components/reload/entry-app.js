@@ -1,23 +1,24 @@
+/* global window document */
 import React from 'react';
 import ReactDom from 'react-dom';
-import { handleDefaults } from '../helpers/utils';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import ReloadCombinedReducers from './reload-combined-reducers';
 import Reload from './reload';
-import thunk from 'redux-thunk';
+import { handleDefaults } from '../helpers/utils';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
-export default class HwrldReload {
+export default class EntryApp {
   constructor(element, dynamicOptions) {
     const defaults = {};
     this.element = element;
-		this.options = handleDefaults(defaults, dynamicOptions);
-		this.renderElm();
+    this.options = handleDefaults(defaults, dynamicOptions);
+    this.renderElm();
   }
 
-	renderElm() {
+  renderElm() {
     const store = createStoreWithMiddleware(
       ReloadCombinedReducers,
       window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -25,11 +26,11 @@ export default class HwrldReload {
 
     ReactDom.render(
       <Provider store={store}>
-				<Reload options={this.options} />
-			</Provider>
-			,
-			document.querySelector(this.element));
-    }
+        <Reload options={this.options} />
+      </Provider>,
+      document.querySelector(this.element)
+    );
+  }
 }
 
-window.HwrldReload = HwrldReload;
+window.EntryApp = EntryApp;

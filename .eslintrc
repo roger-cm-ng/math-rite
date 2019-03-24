@@ -13,7 +13,8 @@
     "react/sort-comp": 0,
     "max-len": 0,
     "no-unused-vars": ["error", { "varsIgnorePattern": "coreStyles" }],
-    "react/jsx-indent-props": [0, 'tab']
+    "react/jsx-indent-props": [0, 'tab'],
+    "react/jsx-filename-extension": 0
   },
   "parser": "babel-eslint"
 }
