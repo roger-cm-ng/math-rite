@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 require('@babel/register');
+// eslint-disable-next-line vars-on-top, no-var, no-unused-vars
 var app = require('../server');

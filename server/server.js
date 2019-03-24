@@ -1,16 +1,18 @@
+/* eslint-disable no-console */
 import express from 'express';
 import path from 'path';
-import routes from './routes/index';
 import http from 'http';
 import socketIo from 'socket.io';
+import routes from './routes/index';
 
+const port = 3000;
 const app = express();
 const server = http.Server(app);
 const io = socketIo(server);
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || port);
 server.listen(app.get('port'), app.get('ip'), () => {
-  console.log(`Server is running on port 3000`);
+  console.log(`Server is running on port ${port}`);
 });
 
 app.set('views', path.join(__dirname, 'views'));
