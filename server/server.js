@@ -11,7 +11,7 @@ const app = express();
 const server = http.Server(app);
 const io = socketIo(server);
 
-app.use(compression()); //use compression
+app.use(compression()); // use compression
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.set('port', process.env.PORT || port);

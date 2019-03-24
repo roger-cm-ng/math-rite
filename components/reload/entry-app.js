@@ -4,8 +4,10 @@ import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ReloadCombinedReducers from './reload-combined-reducers';
-import Reload from './reload';
+import Thumbnails from '../thumbnails/thumbnails';
+import SingleCard from '../single-card/single-card';
 import { handleDefaults } from '../helpers/utils';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
@@ -26,7 +28,20 @@ export default class EntryApp {
 
     ReactDom.render(
       <Provider store={store}>
-        <Reload options={this.options} />
+        <Router>
+          <div>
+            <Route
+              exact
+              path="/thumbnails"
+              component={Thumbnails}
+            />
+            <Route
+              exact
+              path="/single-card"
+              component={SingleCard}
+            />
+          </div>
+        </Router>
       </Provider>,
       document.querySelector(this.element)
     );
