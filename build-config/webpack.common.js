@@ -25,7 +25,8 @@ module.exports = {
             commons.loadersBabel(),
             commons.loadersStyle(),
             commons.loadersImages(),
-            commons.loadersJson()
+            commons.loadersJson(),
+            commons.loadersSvg()
         ]
     }
 };

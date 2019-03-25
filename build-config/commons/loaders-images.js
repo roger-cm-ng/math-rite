@@ -1,6 +1,6 @@
 module.exports = function() {
     return {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(gif|png|jpe?g)$/i,
         exclude: /node_modules/,
         loaders: [
             {
