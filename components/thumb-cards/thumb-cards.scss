@@ -1,10 +1,10 @@
-.component {
+.thumb-cards {
   display: block;
   padding: 20px;
-}
 
-.thumb {
-  width: 60px;
-  margin: 0 20px 20px 0;
-  float: left;
+  .thumb {
+    width: 60px;
+    margin: 0 20px 20px 0;
+    float: left;
+  }
 }

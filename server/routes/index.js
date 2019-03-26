@@ -4,7 +4,7 @@ import cors from 'cors';
 const Index = express.Router();
 
 Index.all('*', cors());
-Index.get(/^.*$/, (req, res) => {
+Index.get(/sc.*/, (req, res) => {
   res.render('index');
 });
 

@@ -46,7 +46,7 @@ class Card extends Component {
     const { svg, className } = this.props;
 
     return (
-      <div className={`${css.component} ${className || ''}`}>
+      <div className={`${css.card} ${className || ''}`}>
         <Svg svg={this.card[svg]} />
       </div>
     );

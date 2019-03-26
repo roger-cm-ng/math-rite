@@ -6,6 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ReloadCombinedReducers from './reload-combined-reducers';
+import Deck from '../deck/deck';
 import ThumbCards from '../thumb-cards/thumb-cards';
 import BigCard from '../big-card/big-card';
 import { handleDefaults } from '../helpers/utils';
@@ -32,12 +33,16 @@ export default class EntryApp {
           <div>
             <Route
               exact
-              path="/thumb-cards"
-              component={ThumbCards}
+              path="/sc-deck"
+              component={Deck}
             />
             <Route
               exact
-              path="/big-card"
+              path="/sc-thumb-cards"
+              component={ThumbCards}
+            />
+            <Route
+              path="/sc-thumb-cards/big-card"
               component={BigCard}
             />
           </div>

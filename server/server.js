@@ -5,6 +5,8 @@ import path from 'path';
 import http from 'http';
 import socketIo from 'socket.io';
 import routes from './routes/index';
+import api from './routes/api';
+import mediaMogulsDeck from './decks/media-moguls.json';
 
 const port = 3000;
 const app = express();
@@ -23,6 +25,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use('/', routes);
+app.use('/api', api);
+
+console.log(mediaMogulsDeck);
 
 io.on('connection', (socket) => {
   console.log('user connected');

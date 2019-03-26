@@ -11,18 +11,23 @@ import { chooseCard } from '../big-card/big-card-actions';
 class ThumbCards extends Component {
   static propTypes= {
     thumbCardsReducer: PropTypes.array,
-    chooseCard: PropTypes.func
+    chooseCard: PropTypes.func,
+    history: PropTypes.object
   };
 
-  componentWillUpdate() {}
+  clickCard = (item) => {
+    const { history } = this.props;
+    this.props.chooseCard(item);
+    history.push('/sc-thumb-cards/big-card');
+  }
 
   render() {
     const { thumbCardsReducer } = this.props;
     return (
-      <div className={css.component}>
+      <div className={css['thumb-cards']}>
         {
           thumbCardsReducer.map((item, ind) => (
-            <div key={ind} className={css.shell} onClick={() => this.props.chooseCard(item)}>
+            <div key={ind} onClick={() => this.clickCard(item)}>
               <Card className={css.thumb} svg={item} />
             </div>
           ))
