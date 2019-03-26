@@ -1,24 +1,21 @@
 {
   "deckName": "Media Moguls",
-  "deckPin": 9876,
-  "members": {
-    "roger": {
+  "deckPin": "9876",
+  "members": [
+    {
+      "name": "Roger Ng",
       "initial": "RN",
-      "currentCard": null,
-      "color": "ff0000",
-      "isActive": false
+      "color": "ff0000"
     },
-    "sergii": {
+    {
+      "name": "Sergii Martianov",
       "initial": "SM",
-      "currentCard": null,
-      "color": "00ff00",
-      "isActive": false
+      "color": "00ff00"
     },
-    "sanjeet": {
+    {
+      "name": "Sanjeet Kanwar",
       "initial": "SK",
-      "currentCard": null,
-      "color": "0000ff",
-      "isActive": false
+      "color": "0000ff"
     }
-  }
+  ]
 }

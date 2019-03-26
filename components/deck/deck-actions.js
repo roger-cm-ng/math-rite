@@ -1,7 +1,15 @@
-export const THUMB_CARD_CHOSEN = 'THUMB_CARD_CHOSEN';
-export function chooseCard(val) {
-  return {
-    type: THUMB_CARD_CHOSEN,
-    val
-  };
-}
+import Resources from '../helpers/resources';
+
+export const AUTHENTICATED = 'AUTHENTICATED';
+
+export const authenticate = pin => () => Resources.auth(
+    {
+      body: { pin },
+      success: (data) => {
+        console.log(data);
+      },
+      fail: (error) => {
+        console.log(error);
+      }
+    }
+  );

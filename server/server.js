@@ -4,6 +4,8 @@ import compression from 'compression';
 import path from 'path';
 import http from 'http';
 import socketIo from 'socket.io';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import routes from './routes/index';
 import api from './routes/api';
 import mediaMogulsDeck from './decks/media-moguls.json';
@@ -15,6 +17,9 @@ const io = socketIo(server);
 
 app.use(compression()); // use compression
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.set('port', process.env.PORT || port);
 server.listen(app.get('port'), app.get('ip'), () => {
@@ -25,9 +30,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use('/', routes);
-app.use('/api', api);
-
-console.log(mediaMogulsDeck);
+app.post('/api/auth', (req, res) => {
+  if (req.body.pin === mediaMogulsDeck.deckPin) {
+    res.json({
+      status: 200,
+      data: {
+        authenticated: true,
+        members: mediaMogulsDeck.members,
+      }
+    });
+  } else {
+    res.json({
+      status: 500
+    });
+  }
+});
 
 io.on('connection', (socket) => {
   console.log('user connected');
