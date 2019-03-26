@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const path = require('path');
 const webpackMerge = require('webpack-merge');
 const CommonConfig = require('./webpack.common');
+const commons = require('./commons');
+const baseUrl = 'https://scrum-cards.herokuapp.com';
 
 module.exports = webpackMerge(CommonConfig, {
     output: {
@@ -26,5 +28,11 @@ module.exports = webpackMerge(CommonConfig, {
         new webpack.SourceMapDevToolPlugin({
             filename: './sourcemaps/[name].js.map'
         })
-    ]
+    ],
+
+    module: {
+      rules: [
+        commons.loadersStringReplace(/\#BASE_URL\#/ig, baseUrl)
+      ]
+    }
 });

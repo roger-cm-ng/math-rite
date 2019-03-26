@@ -1,7 +1,7 @@
 /* global window */
 
 export default class Resources {
-  static baseUrl = 'http://localhost:3000';
+  static baseUrl = '#BASE_URL#';
 
   static post({
     endPoint, body, success, fail
