@@ -9,10 +9,10 @@ export const authenticate = pin => dispatch => Resources.auth(
         dispatch({
           type: AUTHENTICATED,
           data
-        })
+        });
       },
-      fail: (error) => {
-        console.log(error, 'XXX');
+      fail: (/* error */) => {
+        // console.log(error, 'XXX');
       }
     }
   );
