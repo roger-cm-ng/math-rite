@@ -46,25 +46,25 @@ app.post('/api/auth', (req, res) => {
   }
 });
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = 'mongodb+srv://roger:Clu5t3rU53r@scrum-vt9vg.gcp.mongodb.net/test?retryWrites=true'
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect((err, client) => {
-   if(err) {
-     console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
-   }
-
-  const collection = client.db('db').collection('users');
-  collection.find({}).toArray(function(err, docs) {
-    console.log("Found the following records");
-    console.log(docs)
-  });
-
-    // collection.find({firstName: 'Roger'}).toArray(function(err, docs) {
-    //   console.log(docs[0])
-    //   client.close()
-    // })
-});
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = 'mongodb+srv://roger:Clu5t3rU53r@scrum-vt9vg.gcp.mongodb.net/test?retryWrites=true'
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect((err, client) => {
+//    if(err) {
+//      console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+//    }
+//
+//   const collection = client.db('db').collection('users');
+//   collection.find({}).toArray(function(err, docs) {
+//     console.log("Found the following records");
+//     console.log(docs)
+//   });
+//
+//     // collection.find({firstName: 'Roger'}).toArray(function(err, docs) {
+//     //   console.log(docs[0])
+//     //   client.close()
+//     // })
+// });
 
 io.on('connection', (socket) => {
   console.log('user connected');
