@@ -2,11 +2,14 @@ import Resources from '../helpers/resources';
 
 export const AUTHENTICATED = 'AUTHENTICATED';
 
-export const authenticate = pin => () => Resources.auth(
+export const authenticate = pin => dispatch => Resources.auth(
     {
       body: { pin },
       success: (data) => {
-        console.log(data);
+        dispatch({
+          type: AUTHENTICATED,
+          data
+        })
       },
       fail: (error) => {
         console.log(error);

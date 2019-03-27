@@ -1,4 +1,8 @@
-import { THUMB_CARD_CHOSEN } from './big-card-actions';
+import { AUTHENTICATED } from './deck-actions';
+
+const initialState = {
+  data: {}
+}
 
 export default function (state = null, action) {
   switch (action.type) {
