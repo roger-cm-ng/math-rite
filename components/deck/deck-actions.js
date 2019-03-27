@@ -12,7 +12,7 @@ export const authenticate = pin => dispatch => Resources.auth(
         })
       },
       fail: (error) => {
-        console.log(error);
+        console.log(error, 'XXX');
       }
     }
   );
