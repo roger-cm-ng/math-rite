@@ -6,6 +6,7 @@ export default class Resources {
   static post({
     endPoint, body, success, fail
   }) {
+    let statusCode;
     window.fetch(`${this.baseUrl}/${endPoint}`, {
       method: 'POST',
       body: JSON.stringify(body),
@@ -13,15 +14,20 @@ export default class Resources {
        'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
+    .then((res) => {
+      const { status } = res;
+      statusCode = status;
+      return res.json();
+    })
     .then((payload) => {
-      if (payload.status === 200) {
-        success(payload.data);
+      if (statusCode === 200) {
+        success(payload);
       } else {
+        payload.status = statusCode;
         fail(payload);
       }
     })
-    .catch(fail);
+    .catch((err) => { throw new Error(err); });
   }
 
   static auth({ body, success, fail }) {

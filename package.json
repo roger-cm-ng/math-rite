@@ -4,12 +4,13 @@
   "description": "",
   "main": "./server/bin/www",
   "scripts": {
-    "lint": "eslint \"server/**/*.js\"",
-    "lint:watch": " \"npm run lint\"",
-    "start": "node ./server/bin/www",
-    "nodemon": "nodemon ./server/bin/www",
     "webpack-prod": "webpack --config build-config/webpack.prod",
-    "heroku-postbuild": "if-env NODE_ENV=production && npm run webpack-prod"
+    "webpack-dev": "webpack --config build-config/webpack.dev -d",
+    "lint": "eslint \"server/**/*.js\"",
+    "nodemon": "nodemon ./server/bin/www --exec \"npm run lint && node\"",
+    "dev": "concurrently \"npm:webpack-dev\" \"npm:nodemon\"",
+    "heroku-postbuild": "if-env NODE_ENV=production && npm run webpack-prod",
+    "start": "node ./server/bin/www"
   },
   "repository": {
     "type": "git",

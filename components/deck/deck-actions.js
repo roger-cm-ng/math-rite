@@ -8,8 +8,8 @@ export const authenticate = pin => (/* dispatch */) => Resources.auth(
       success: (data) => {
         console.log(data);
       },
-      fail: (/* error */) => {
-        // console.log(error, 'XXX');
+      fail: (error) => {
+        console.log(error.status, '|', error.message);
       }
     }
   );
