@@ -6,10 +6,7 @@ export const authenticate = pin => dispatch => Resources.auth(
     {
       body: { pin },
       success: (data) => {
-        dispatch({
-          type: AUTHENTICATED,
-          data
-        });
+        console.log(data);
       },
       fail: (/* error */) => {
         // console.log(error, 'XXX');

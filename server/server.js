@@ -15,6 +15,8 @@ const app = express();
 const server = http.Server(app);
 const io = socketIo(server);
 
+let users;
+
 app.use(compression()); // use compression
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());
@@ -36,7 +38,7 @@ app.post('/api/auth', (req, res) => {
       status: 200,
       data: {
         authenticated: true,
-        members: mediaMogulsDeck.members,
+        members: users,
       }
     });
   } else {
@@ -57,7 +59,8 @@ client.connect((err, client) => {
   const collection = client.db('db').collection('users');
   collection.find({}).toArray(function(err, docs) {
     console.log("Found the following records");
-    console.log(docs)
+    console.log(docs);
+    users = docs;
   });
 
     // collection.find({firstName: 'Roger'}).toArray(function(err, docs) {
