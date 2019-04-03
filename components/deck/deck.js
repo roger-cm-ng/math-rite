@@ -7,7 +7,7 @@ class Deck extends Component {
   render() {
     return (
       <div className={css.deck}>
-        <h1>Deck</h1>
+        <h1>Coming soon</h1>
       </div>
     );
   }
