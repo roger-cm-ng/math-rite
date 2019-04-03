@@ -1,10 +1,11 @@
 .thumb-cards {
-  display: block;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
 
   .thumb {
-    width: 60px;
-    margin: 0 20px 20px 0;
-    float: left;
+    width: 100px;
+    padding: 10px;
   }
 }

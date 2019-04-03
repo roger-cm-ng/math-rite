@@ -18,7 +18,7 @@ class ThumbCards extends Component {
   clickCard = (item) => {
     const { history } = this.props;
     this.props.chooseCard(item);
-    history.push('/sc-thumb-cards/big-card');
+    history.push('/thumb-cards/big-card');
   }
 
   render() {

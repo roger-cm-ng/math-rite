@@ -14,7 +14,7 @@ class BigCard extends Component {
 
   backToThumbCards = () => {
     const { history } = this.props;
-    history.push('/sc-thumb-cards');
+    history.push('/thumb-cards');
   }
 
   render() {
