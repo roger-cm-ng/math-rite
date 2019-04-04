@@ -19,16 +19,16 @@ class Header extends Component {
           <li
             className={css.nav}
             role="presentation"
-            onClick={() => { history.push('/thumb-cards'); }}
+            onClick={() => { history.push('/about'); }}
           >
-            CARDS
+            MATH-RITE
           </li>
           <li
             className={css.nav}
             role="presentation"
-            onClick={() => { history.push('/deck'); }}
+            onClick={() => { history.push('/whiteboard'); }}
           >
-            DECK
+            WHITEBOARD
           </li>
         </ul>
       </div>

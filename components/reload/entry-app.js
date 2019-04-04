@@ -7,10 +7,6 @@ import thunk from 'redux-thunk';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ReloadCombinedReducers from './reload-combined-reducers';
 import Header from '../header/header';
-import Login from '../login/login';
-import Deck from '../deck/deck';
-import ThumbCards from '../thumb-cards/thumb-cards';
-import BigCard from '../big-card/big-card';
 import { handleDefaults } from '../helpers/utils';
 import './core.scss';
 
@@ -37,25 +33,6 @@ export default class EntryApp {
             <Route
               path="/"
               component={Header}
-            />
-            <Route
-              exact
-              path="/login"
-              component={Login}
-            />
-            <Route
-              exact
-              path="/deck"
-              component={Deck}
-            />
-            <Route
-              exact
-              path="/thumb-cards"
-              component={ThumbCards}
-            />
-            <Route
-              path="/thumb-cards/big-card"
-              component={BigCard}
             />
           </div>
         </Router>
