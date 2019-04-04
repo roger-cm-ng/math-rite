@@ -30,9 +30,6 @@ class Header extends Component {
           >
             WHITEBOARD
           </li>
-          <li>
-            <h1>dev</h1>
-          </li>
         </ul>
       </div>
     );
