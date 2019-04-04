@@ -3,6 +3,7 @@
 ## Installation
 - npm install
 - npm run dev
+- http://localhost:3000
 
 ## Project specifics
 - When installing new npm modules, always do npm install --save so that Heroku can build properly
