@@ -12,7 +12,14 @@
     margin-left: 20px;
     font-size: 24px;
     font-weight: bolder;
-    font-family: 'Arial Narrow Bold', sans-serif;
+
+    .math {
+      font-family: Arial;
+    }
+
+    .rite {
+      font-family: pacifico;
+    }
 
     @media screen and (max-width: 400px) {
       margin-left: 10px;

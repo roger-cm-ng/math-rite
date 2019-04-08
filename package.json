@@ -6,7 +6,7 @@
   "scripts": {
     "webpack-prod": "webpack --config build-config/webpack.prod",
     "webpack-dev": "webpack --config build-config/webpack.dev -d",
-    "lint": "eslint \"server/**/*.js\"",
+    "lint": "eslint \"server/**/*.js\" \"components/**/*.js\"",
     "nodemon": "nodemon ./server/bin/www --exec \"npm run lint && node\"",
     "dev": "concurrently \"npm:webpack-dev\" \"npm:nodemon\"",
     "heroku-postbuild": "if-env NODE_ENV=production && npm run webpack-prod",
