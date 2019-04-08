@@ -26,14 +26,14 @@ class Header extends Component {
             role="presentation"
             onClick={() => { history.push('/about'); }}
           >
-            ABOUT
+            About
           </li>
           <li
             className={css.nav}
             role="presentation"
             onClick={() => { history.push('/whiteboard'); }}
           >
-            WHITEBOARD
+            Board
           </li>
         </ul>
       </div>
