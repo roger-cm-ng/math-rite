@@ -7,6 +7,7 @@
 
 ## Project specifics
 - When installing new npm modules, always do npm install --save so that Heroku can build properly
+- npm run lint -- --fix to fix eol issues
 
 ## Development and branch management
 feature/branch => develop => master
