@@ -6,7 +6,7 @@
   "scripts": {
     "webpack-prod": "webpack --config build-config/webpack.prod",
     "webpack-dev": "webpack --config build-config/webpack.dev -d",
-    "lint": "eslint \"server/**/*.js\"",
+    "lint": "eslint \"server/**/*.js\" \"components/**/*.js\"",
     "nodemon": "nodemon ./server/bin/www --exec \"npm run lint && node\"",
     "dev": "concurrently \"npm:webpack-dev\" \"npm:nodemon\"",
     "heroku-postbuild": "if-env NODE_ENV=production && npm run webpack-prod",
@@ -57,6 +57,7 @@
     "local-storage": "^1.4.2",
     "lodash": "^4.17.11",
     "mongodb": "^3.2.2",
+    "myscript": "^4.3.0",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "passport": "^0.4.0",
@@ -86,7 +87,6 @@
     "watch": "^1.0.2",
     "webpack": "^3.6.0",
     "webpack-merge": "^4.2.1",
-    "whatwg-fetch": "^3.0.0",
-    "myscript": "^4.1.0"
+    "whatwg-fetch": "^3.0.0"
   }
 }
