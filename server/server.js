@@ -47,12 +47,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('data', (data) => {
-    console.log('data', socket.id, socket.rooms, data);
-    socket.emit('data', data);
+    console.log('data from ', socket.id);
     Object.keys(socket.rooms).forEach((room) => {
       if (room !== socket.id) {
-        console.log('data emitted to', room);
-        socket.to(room).emit('data', data);
+        console.log('data emitted to', socket.id, room);
+        socket.broadcast.to(room).emit('data', data);
       }
     });
   });

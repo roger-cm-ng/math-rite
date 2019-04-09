@@ -59,6 +59,7 @@ class About extends Component {
         <div>
           <input
             type="text"
+            placeholder="optional"
             value={this.state.newRoom}
             onChange={this.handleChange}
           />
