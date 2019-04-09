@@ -1,4 +1,4 @@
-
+/* global window */
 import React, { Component } from 'react';
 import * as MyScriptJS from 'myscript';
 import './button.css';
@@ -18,6 +18,8 @@ const result = {
   textAlign: 'center'
 };
 
+let timestamp = Date.now();
+
 class Editor extends Component {
   constructor(props) {
     super(props);
@@ -27,98 +29,118 @@ class Editor extends Component {
     this.redoBtnRef = React.createRef();
     this.convertBtnRef = React.createRef();
     this.resultRef = React.createRef();
+    window.socket.on('data', (data) => {
+      if (data.timestamp === timestamp) {
+        return;
+      }
+      // eslint-disable-next-line prefer-destructuring
+      timestamp = data.timestamp;
+      const editorElement = this.editorRef.current;
+      // eslint-disable-next-line no-underscore-dangle
+      editorElement.editor.import_(data.data, 'application/vnd.myscript.jiix');
+    });
   }
 
   render() {
     return (
       <div>
-        <div id="result" style={result} ref={this.resultRef} />
-        <nav className="nav-group">
-          <div className="button-div">
-            <button id="clear" ref={this.clearBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
-              <img alt="clear" src="../assets/img/clear.svg" />
-            </button>
-            <button id="undo" ref={this.undoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
-              <img alt="undo" src="../assets/img/undo.svg" />
-            </button>
-            <button id="redo" ref={this.redoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
-              <img alt="redo" src="../assets/img/redo.svg" />
-            </button>
-          </div>
-          <div className="spacer" />
-          <button className="classic-btn" ref={this.convertBtnRef} type="button" id="convert" disabled>Convert</button>
-        </nav>
-        <div id="editor" ref={this.editorRef} style={editorStyle} />
+
+        <div>
+          <div id="result" style={result} ref={this.resultRef} />
+          <nav className="nav-group">
+            <div className="button-div">
+              <button id="clear" ref={this.clearBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                <img alt="clear" src="../assets/img/clear.svg" />
+              </button>
+              <button id="undo" ref={this.undoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                <img alt="undo" src="../assets/img/undo.svg" />
+              </button>
+              <button id="redo" ref={this.redoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                <img alt="redo" src="../assets/img/redo.svg" />
+              </button>
+            </div>
+            <div className="spacer" />
+            <button className="classic-btn" ref={this.convertBtnRef} type="button" id="convert" disabled>Convert</button>
+          </nav>
+          <div id="editor" ref={this.editorRef} style={editorStyle} />
+        </div>
+
       </div>
+
     );
   }
 
   componentDidMount() {
     const editorElement = this.editorRef.current;
-      const resultElement = this.resultRef.current;
-      const undoElement = this.undoBtnRef.current;
-      const redoElement = this.redoBtnRef.current;
-      const clearElement = this.clearBtnRef.current;
-      const convertElement = this.convertBtnRef.current;
-      // const { katex } = window.katex;
-      editorElement.addEventListener('changed', (event) => {
-        undoElement.disabled = !event.detail.canUndo;
-        redoElement.disabled = !event.detail.canRedo;
-        clearElement.disabled = event.detail.isEmpty;
-      });
-      // function cleanLatex(latexExport) {
-      //   if (typeof latexExport === 'number') {
-      //     latexExport = latexExport.toString();
-      //   }
-      //   if (latexExport.includes('\\\\')) {
-      //     const steps = `\\begin{align*}${latexExport}\\end{align*}`;
-      //     return steps.replace('\\overrightarrow', '\\vec')
-      //       .replace('\\begin{aligned}', '')
-      //       .replace('\\end{aligned}', '')
-      //       .replace('\\llbracket', '\\lbracket')
-      //       .replace('\\rrbracket', '\\rbracket')
-      //       .replace('\\widehat', '\\hat')
-      //       .replace(new RegExp('(align.{1})', 'g'), 'aligned');
-      //   }
-      //   return latexExport
-      //     .replace('\\overrightarrow', '\\vec')
-      //     .replace('\\llbracket', '\\lbracket')
-      //     .replace('\\rrbracket', '\\rbracket')
-      //     .replace('\\widehat', '\\hat')
-      //     .replace(new RegExp('(align.{1})', 'g'), 'aligned');
-      // }
-      editorElement.addEventListener('exported', (evt) => {
-        const { exports } = evt.detail;
-        if (exports && exports['application/x-latex']) {
-          convertElement.disabled = false;
-         // katex.render(cleanLatex(exports['application/x-latex']),  resultElement);
-          resultElement.innerHTML = `<span>${exports['application/x-latex']}</span>`;
-        } else if (exports && exports['application/mathml+xml']) {
-          convertElement.disabled = false;
-          resultElement.innerText = exports['application/mathml+xml'];
-        } else if (exports && exports['application/mathofficeXML']) {
-          convertElement.disabled = false;
-          resultElement.innerText = exports['application/mathofficeXML'];
-        } else if (exports && exports['text/plain']) {
-          convertElement.disabled = false;
-          resultElement.innerHTML = `<span>${exports['text/plain']}</span>`;
-        } else {
-          convertElement.disabled = true;
-          resultElement.innerHTML = '';
-        }
-      });
-      undoElement.addEventListener('click', () => {
-        editorElement.editor.undo();
-      });
-      redoElement.addEventListener('click', () => {
-        editorElement.editor.redo();
-      });
-      clearElement.addEventListener('click', () => {
-        editorElement.editor.clear();
-      });
-      convertElement.addEventListener('click', () => {
-        editorElement.editor.convert();
-      });
+    const resultElement = this.resultRef.current;
+    const undoElement = this.undoBtnRef.current;
+    const redoElement = this.redoBtnRef.current;
+    const clearElement = this.clearBtnRef.current;
+    const convertElement = this.convertBtnRef.current;
+    // const { katex } = window.katex;
+    editorElement.addEventListener('changed', (event) => {
+      undoElement.disabled = !event.detail.canUndo;
+      redoElement.disabled = !event.detail.canRedo;
+      clearElement.disabled = event.detail.isEmpty;
+    });
+    // function cleanLatex(latexExport) {
+    //   if (typeof latexExport === 'number') {
+    //     latexExport = latexExport.toString();
+    //   }
+    //   if (latexExport.includes('\\\\')) {
+    //     const steps = `\\begin{align*}${latexExport}\\end{align*}`;
+    //     return steps.replace('\\overrightarrow', '\\vec')
+    //       .replace('\\begin{aligned}', '')
+    //       .replace('\\end{aligned}', '')
+    //       .replace('\\llbracket', '\\lbracket')
+    //       .replace('\\rrbracket', '\\rbracket')
+    //       .replace('\\widehat', '\\hat')
+    //       .replace(new RegExp('(align.{1})', 'g'), 'aligned');
+    //   }
+    //   return latexExport
+    //     .replace('\\overrightarrow', '\\vec')
+    //     .replace('\\llbracket', '\\lbracket')
+    //     .replace('\\rrbracket', '\\rbracket')
+    //     .replace('\\widehat', '\\hat')
+    //     .replace(new RegExp('(align.{1})', 'g'), 'aligned');
+    // }
+    editorElement.addEventListener('mouseup', () => {
+      timestamp = Date.now();
+    });
+    editorElement.addEventListener('exported', (evt) => {
+      const { exports } = evt.detail;
+      if (exports && exports['application/x-latex']) {
+        const toImport = exports['application/vnd.myscript.jiix'];
+        window.socket.emit('data', { data: toImport, timestamp });
+        convertElement.disabled = false;
+        // katex.render(cleanLatex(exports['application/x-latex']),  resultElement);
+        resultElement.innerHTML = `<span>${exports['application/x-latex']}</span>`;
+      } else if (exports && exports['application/mathml+xml']) {
+        convertElement.disabled = false;
+        resultElement.innerText = exports['application/mathml+xml'];
+      } else if (exports && exports['application/mathofficeXML']) {
+        convertElement.disabled = false;
+        resultElement.innerText = exports['application/mathofficeXML'];
+      } else if (exports && exports['text/plain']) {
+        convertElement.disabled = false;
+        resultElement.innerHTML = `<span>${exports['text/plain']}</span>`;
+      } else {
+        convertElement.disabled = true;
+        resultElement.innerHTML = '';
+      }
+    });
+    undoElement.addEventListener('click', () => {
+      editorElement.editor.undo();
+    });
+    redoElement.addEventListener('click', () => {
+      editorElement.editor.redo();
+    });
+    clearElement.addEventListener('click', () => {
+      editorElement.editor.clear();
+    });
+    convertElement.addEventListener('click', () => {
+      editorElement.editor.convert();
+    });
 
     this.editorElement = MyScriptJS.register(editorElement, {
       recognitionParams: {
