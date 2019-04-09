@@ -1,4 +1,4 @@
-
+/* global window */
 import React, { Component } from 'react';
 import * as MyScriptJS from 'myscript';
 import './button.css';
@@ -37,6 +37,12 @@ class Editor extends Component {
     this.redoBtnRef = React.createRef();
     this.convertBtnRef = React.createRef();
     this.resultRef = React.createRef();
+    window.socket.on('data', (data) => {
+      console.log(data);
+      const editorElement2 = this.editorRef2.current;
+      // eslint-disable-next-line no-underscore-dangle
+      editorElement2.editor.import_(data, 'application/vnd.myscript.jiix');
+    });
   }
 
   render() {
@@ -108,6 +114,7 @@ class Editor extends Component {
         const { exports } = evt.detail;
         if (exports && exports['application/x-latex']) {
           const toImport = exports['application/vnd.myscript.jiix'];
+          window.socket.emit('data', toImport);
           convertElement.disabled = false;
           /* eslint-disable-next-line no-underscore-dangle */
           editorElement2.editor.import_(toImport, 'application/vnd.myscript.jiix');

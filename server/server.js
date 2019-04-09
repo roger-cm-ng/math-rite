@@ -37,21 +37,24 @@ server.listen(app.get('port'), app.get('ip'), () => {
 });
 
 io.on('connection', (socket) => {
-  const room = shortid.generate();
-  console.log('user connected', socket.id, room);
-  socket.join(room);
-  socket.emit('room', room);
+  const id = shortid.generate();
+  console.log('user connected', socket.id, id);
+  socket.emit('room', id);
 
-  socket.on('join', (newRoom) => {
-    console.log('join', socket.id, newRoom);
-    // leave old room?
-    socket.join(newRoom);
+  socket.on('join', (room) => {
+    console.log('join', socket.id, room);
+    socket.join(room);
   });
 
   socket.on('data', (data) => {
-    console.log('data', data);
-    // io.emit('data', data);
-    socket.broadcast.emit('data', data);
+    console.log('data', socket.id, socket.rooms, data);
+    socket.emit('data', data);
+    Object.keys(socket.rooms).forEach((room) => {
+      if (room !== socket.id) {
+        console.log('data emitted to', room);
+        socket.to(room).emit('data', data);
+      }
+    });
   });
   socket.on('disconnect', () => {
     console.log('user disconnected');
