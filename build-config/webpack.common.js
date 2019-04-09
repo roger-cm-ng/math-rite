@@ -24,6 +24,7 @@ module.exports = {
             commons.preloadersEslint(),
             commons.loadersBabel(),
             commons.loadersStyle(),
+            commons.vendorCssLoader(),
             commons.loadersImages(),
             commons.loadersJson(),
             commons.loadersSvg()

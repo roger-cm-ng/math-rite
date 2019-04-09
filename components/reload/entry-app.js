@@ -10,6 +10,7 @@ import Header from '../header/header';
 import { handleDefaults } from '../helpers/utils';
 import './core.scss';
 import About from '../about/about';
+import Editor from '../whiteboard/editor';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
@@ -38,6 +39,10 @@ export default class EntryApp {
             <Route
               path="/about"
               component={About}
+            />
+            <Route
+              path="/whiteboard"
+              component={Editor}
             />
           </div>
         </Router>

@@ -8,6 +8,7 @@ exports.devServer = require('./dev-server');
 exports.preloadersEslint = require('./preloaders-eslint');
 exports.loadersBabel = require('./loaders-babel');
 exports.loadersStyle = require('./loaders-style');
+exports.vendorCssLoader = require('./vendor-css-loader');
 exports.loadersJson = require('./loaders-json');
 exports.stylelintPlugin = require('./stylelint-plugin');
 exports.loadersImages = require('./loaders-images');
