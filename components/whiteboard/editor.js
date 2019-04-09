@@ -1,7 +1,6 @@
 /* global window */
 import React, { Component } from 'react';
 import * as MyScriptJS from 'myscript';
-import _ from 'lodash';
 import './button.css';
 import './diagram.css';
 import 'myscript/dist/myscript.min.css';
@@ -19,7 +18,7 @@ const result = {
   textAlign: 'center'
 };
 
-let currentData = {};
+let timestamp = Date.now();
 
 class Editor extends Component {
   constructor(props) {
@@ -31,26 +30,14 @@ class Editor extends Component {
     this.convertBtnRef = React.createRef();
     this.resultRef = React.createRef();
     window.socket.on('data', (data) => {
-      console.log('data', data, currentData);
-      const expressions = _.last(data.expressions);
-      const items = _.last(_.get(expressions, 'items'));
-      const currentExpressions = _.last(currentData.expressions);
-      const currentItems = _.last(_.get(currentExpressions, 'items'));
-      if (expressions && items && currentExpressions && currentItems) {
-        // eslint-disable-next-line object-curly-newline
-        const { F: f, T: t, X: x, Y: y } = items;
-        // eslint-disable-next-line object-curly-newline
-        const { F: f1, T: t1, X: x1, Y: y1 } = currentItems;
-        console.log('items', f, t, x, y);
-        console.log('currentItems', f1, t1, x1, y1);
-        if (_.isEqual(items.F, currentItems.F) && _.isEqual(items.T, currentItems.T) && _.isEqual(items.X, currentItems.X) && _.isEqual(items.Y, currentItems.Y)) {
-          return;
-        }
+      if (data.timestamp === timestamp) {
+        return;
       }
-      currentData = data;
+      // eslint-disable-next-line prefer-destructuring
+      timestamp = data.timestamp;
       const editorElement = this.editorRef.current;
       // eslint-disable-next-line no-underscore-dangle
-      editorElement.editor.import_(JSON.stringify(data), 'application/vnd.myscript.jiix');
+      editorElement.editor.import_(data.data, 'application/vnd.myscript.jiix');
     });
   }
 
@@ -117,14 +104,14 @@ class Editor extends Component {
     //     .replace('\\widehat', '\\hat')
     //     .replace(new RegExp('(align.{1})', 'g'), 'aligned');
     // }
-    editorElement.addEventListener('mouseup', (event) => {
-      console.log('mouseup', event);
+    editorElement.addEventListener('mouseup', () => {
+      timestamp = Date.now();
     });
     editorElement.addEventListener('exported', (evt) => {
       const { exports } = evt.detail;
       if (exports && exports['application/x-latex']) {
         const toImport = exports['application/vnd.myscript.jiix'];
-        window.socket.emit('data', JSON.parse(toImport));
+        window.socket.emit('data', { data: toImport, timestamp });
         convertElement.disabled = false;
         // katex.render(cleanLatex(exports['application/x-latex']),  resultElement);
         resultElement.innerHTML = `<span>${exports['application/x-latex']}</span>`;

@@ -23,7 +23,7 @@ class About extends Component {
       newRoom: ''
     };
     window.socket.on('connect', () => {
-      console.log('user connected', window.socket.id);
+      // console.log('user connected', window.socket.id);
     });
     window.socket.on('room', (room) => {
       this.setState({
@@ -45,7 +45,6 @@ class About extends Component {
     this.setState({
       currentRoom: room
     });
-    console.log('room', room);
     this.props.history.push('/whiteboard');
   }
 
