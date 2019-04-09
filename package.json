@@ -57,6 +57,7 @@
     "local-storage": "^1.4.2",
     "lodash": "^4.17.11",
     "mongodb": "^3.2.2",
+    "myscript": "^4.3.0",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "passport": "^0.4.0",

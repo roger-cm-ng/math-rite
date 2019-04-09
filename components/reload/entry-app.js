@@ -9,6 +9,7 @@ import ReloadCombinedReducers from './reload-combined-reducers';
 import Header from '../header/header';
 import { handleDefaults } from '../helpers/utils';
 import './core.scss';
+import Editor from '../whiteboard/editor';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
@@ -33,6 +34,10 @@ export default class EntryApp {
             <Route
               path="/"
               component={Header}
+            />
+            <Route
+              path="/whiteboard"
+              component={Editor}
             />
           </div>
         </Router>
