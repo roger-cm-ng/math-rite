@@ -1,4 +1,4 @@
-# MATH-RITE
+# MathRite
 
 ## Installation
 - npm install
