@@ -4,6 +4,7 @@ import compression from 'compression';
 import path from 'path';
 import http from 'http';
 import socketIo from 'socket.io';
+import shortid from 'shortid';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import index from './routes/index';
@@ -36,18 +37,24 @@ server.listen(app.get('port'), app.get('ip'), () => {
 });
 
 io.on('connection', (socket) => {
-  console.log('user connected', socket.id);
-  // socket.emit('message', { roger: 'hey how are you?' });
-  // socket.on('another event', (data) => {
-  //   console.log(data);
-  // });
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  const room = shortid.generate();
+  console.log('user connected', socket.id, room);
+  socket.join(room);
+  socket.emit('room', room);
+
+  socket.on('join', (newRoom) => {
+    console.log('join', socket.id, newRoom);
+    // leave old room?
+    socket.join(newRoom);
   });
 
   socket.on('data', (data) => {
+    console.log('data', data);
     // io.emit('data', data);
     socket.broadcast.emit('data', data);
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });
 

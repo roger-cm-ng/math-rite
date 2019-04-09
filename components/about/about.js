@@ -18,14 +18,16 @@ class About extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
-      url: '',
+      room: '',
+      newRoom: '',
       message: ''
     };
     window.socket.on('connect', () => {
       console.log('user connected', window.socket.id);
+    });
+    window.socket.on('room', (room) => {
       this.setState({
-        id: window.socket.id
+        room
       });
     });
     window.socket.on('data', (data) => {
@@ -37,28 +39,30 @@ class About extends Component {
 
   handleChange = (e) => {
     this.setState({
-      url: e.target.value
+      newRoom: e.target.value
     });
   }
 
   handleClick = () => {
-    console.log(this.state.url);
-    window.socket.emit('data', { data: this.state.id });
+    const { newRoom } = this.state;
+    window.socket.emit('join', newRoom);
+    this.setState({
+      room: newRoom
+    });
   }
 
   render() {
     // const { history } = this.props;
     return (
       <div className={css.about}>
-        <span>
-          Your ID:
-          {this.state.id}
-        </span>
+        <div>
+          <span>Your ID: </span>
+          <span>{this.state.room}</span>
+        </div>
         <div>
           <input
-            name="url"
             type="text"
-            value={this.state.url}
+            value={this.state.newRoom}
             onChange={this.handleChange}
           />
           <button type="submit" onClick={this.handleClick}>Go</button>
