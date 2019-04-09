@@ -13,6 +13,15 @@ const editorStyle = {
   touchAction: 'none'
 };
 
+const editorStyle2 = {
+  minWidth: '100px',
+  minHeight: '100px',
+  width: '100vw',
+  height: 'calc(100vh - 190px)',
+  touchAction: 'none',
+  border: '1px solid red'
+};
+
 const result = {
   minHeight: '50px',
   textAlign: 'center'
@@ -22,6 +31,7 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.editorRef = React.createRef();
+    this.editorRef2 = React.createRef();
     this.clearBtnRef = React.createRef();
     this.undoBtnRef = React.createRef();
     this.redoBtnRef = React.createRef();
@@ -32,24 +42,30 @@ class Editor extends Component {
   render() {
     return (
       <div>
-        <div id="result" style={result} ref={this.resultRef} />
-        <nav className="nav-group">
-          <div className="button-div">
-            <button id="clear" ref={this.clearBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
-              <img alt="clear" src="../assets/img/clear.svg" />
-            </button>
-            <button id="undo" ref={this.undoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
-              <img alt="undo" src="../assets/img/undo.svg" />
-            </button>
-            <button id="redo" ref={this.redoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
-              <img alt="redo" src="../assets/img/redo.svg" />
-            </button>
-          </div>
-          <div className="spacer" />
-          <button className="classic-btn" ref={this.convertBtnRef} type="button" id="convert" disabled>Convert</button>
-        </nav>
-        <div id="editor" ref={this.editorRef} style={editorStyle} />
+
+        <div>
+          <div id="result" style={result} ref={this.resultRef} />
+          <nav className="nav-group">
+            <div className="button-div">
+              <button id="clear" ref={this.clearBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                <img alt="clear" src="../assets/img/clear.svg" />
+              </button>
+              <button id="undo" ref={this.undoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                <img alt="undo" src="../assets/img/undo.svg" />
+              </button>
+              <button id="redo" ref={this.redoBtnRef} type="button" className="nav-btn btn-fab-mini btn-lightBlue" disabled>
+                <img alt="redo" src="../assets/img/redo.svg" />
+              </button>
+            </div>
+            <div className="spacer" />
+            <button className="classic-btn" ref={this.convertBtnRef} type="button" id="convert" disabled>Convert</button>
+          </nav>
+          <div id="editor" ref={this.editorRef} style={editorStyle} />
+        </div>
+        <div id="editor2" ref={this.editorRef2} style={editorStyle2} />
+
       </div>
+
     );
   }
 
@@ -60,6 +76,7 @@ class Editor extends Component {
       const redoElement = this.redoBtnRef.current;
       const clearElement = this.clearBtnRef.current;
       const convertElement = this.convertBtnRef.current;
+      const editorElement2 = this.editorRef2.current;
       // const { katex } = window.katex;
       editorElement.addEventListener('changed', (event) => {
         undoElement.disabled = !event.detail.canUndo;
@@ -90,7 +107,10 @@ class Editor extends Component {
       editorElement.addEventListener('exported', (evt) => {
         const { exports } = evt.detail;
         if (exports && exports['application/x-latex']) {
+          const toImport = exports['application/vnd.myscript.jiix'];
           convertElement.disabled = false;
+          /* eslint-disable-next-line no-underscore-dangle */
+          editorElement2.editor.import_(toImport, 'application/vnd.myscript.jiix');
          // katex.render(cleanLatex(exports['application/x-latex']),  resultElement);
           resultElement.innerHTML = `<span>${exports['application/x-latex']}</span>`;
         } else if (exports && exports['application/mathml+xml']) {
@@ -130,6 +150,29 @@ class Editor extends Component {
           host: 'webdemoapi.myscript.com',
           applicationKey: '3e98c551-5f7d-478f-ada9-d90245dc99bd',
           hmacKey: 'a5047431-1231-4dcf-b697-856261acfad9'
+        },
+        v4: {
+          math: {
+            mimeTypes: ['application/x-latex', 'application/vnd.myscript.jiix']
+          },
+          export: {
+            jiix: {
+              strokes: true
+            }
+          }
+        }
+      }
+    });
+    this.editorElement2 = MyScriptJS.register(editorElement2, {
+      recognitionParams: {
+        type: 'MATH',
+        protocol: 'WEBSOCKET',
+        apiVersion: 'V4',
+        server: {
+          scheme: 'https',
+          host: 'webdemoapi.myscript.com',
+          applicationKey: '515131ab-35fa-411c-bb4d-3917e00faf60',
+          hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
         },
         v4: {
           math: {
