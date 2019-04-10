@@ -45,9 +45,10 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.225);
 }
 .nav-btn.btn-fab {
-    width: 56px;
-    height: 56px;
-    font-size: 28px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    border: solid 1px grey;
 }
 .nav-btn.btn-fab-mini {
     width: 40px;
@@ -74,6 +75,11 @@
     background-color: #ececec;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+
+.inputText {
+    height: 30px;
+    font-size: 18px;
 }
 /* .button-div {
     display: flex;
