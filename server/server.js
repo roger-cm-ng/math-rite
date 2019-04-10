@@ -16,6 +16,8 @@ const app = express();
 const server = http.Server(app);
 const io = socketIo(server);
 
+const latestData = {};
+
 app.use(compression());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());
@@ -44,6 +46,9 @@ io.on('connection', (socket) => {
   socket.on('join', (room) => {
     console.log('join', socket.id, room);
     socket.join(room);
+    if (latestData[room]) {
+      socket.emit('data', latestData[room]);
+    }
   });
 
   socket.on('data', (data) => {
@@ -52,6 +57,7 @@ io.on('connection', (socket) => {
       if (room !== socket.id) {
         console.log('data emitted to', socket.id, room);
         socket.broadcast.to(room).emit('data', data);
+        latestData[room] = data;
       }
     });
   });
