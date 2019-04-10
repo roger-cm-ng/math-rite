@@ -155,8 +155,8 @@ class Editor extends Component {
         server: {
           scheme: 'https',
           host: 'webdemoapi.myscript.com',
-          applicationKey: '3e98c551-5f7d-478f-ada9-d90245dc99bd',
-          hmacKey: 'a5047431-1231-4dcf-b697-856261acfad9'
+          applicationKey: '2c4c135c-e13c-417c-98df-444a072c855f',
+          hmacKey: 'ef03a48f-940c-463a-8ba5-c824288bbab7'
         },
         v4: {
           math: {
