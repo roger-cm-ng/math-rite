@@ -114,7 +114,7 @@ class Editor extends Component {
           window.socket.emit('data', JSON.parse(toImport));
         } else {
           isImported = false;
-          return;
+          // return;
         }
         // isImported = true;
         convertElement.disabled = false;
