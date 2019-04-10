@@ -52,17 +52,16 @@ class About extends Component {
     return (
       <div className={css.about}>
         <div>
-          <span>Your ID: </span>
-          <span>{this.state.currentRoom}</span>
-        </div>
-        <div>
+          Enter Room ID : &nbsp;
           <input
+            className="inputText"
             type="text"
             placeholder="optional"
             value={this.state.newRoom}
             onChange={this.handleChange}
           />
-          <button type="submit" onClick={this.handleClick}>Go</button>
+          &nbsp; &nbsp;
+          <button className="nav-btn btn-fab" type="submit" onClick={this.handleClick}>Go</button>
         </div>
       </div>
     );
