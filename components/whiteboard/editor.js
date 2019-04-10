@@ -18,8 +18,8 @@ const result = {
   textAlign: 'center'
 };
 
-let timestamp = Date.now();
-
+// const currentData = {};
+let isImported = false;
 class Editor extends Component {
   constructor(props) {
     super(props);
@@ -30,14 +30,13 @@ class Editor extends Component {
     this.convertBtnRef = React.createRef();
     this.resultRef = React.createRef();
     window.socket.on('data', (data) => {
-      if (data.timestamp === timestamp) {
-        return;
-      }
-      // eslint-disable-next-line prefer-destructuring
-      timestamp = data.timestamp;
       const editorElement = this.editorRef.current;
-      // eslint-disable-next-line no-underscore-dangle
-      editorElement.editor.import_(data.data, 'application/vnd.myscript.jiix');
+
+      if (editorElement && editorElement.editor) {
+        isImported = true;
+        // eslint-disable-next-line no-underscore-dangle
+        editorElement.editor.import_(JSON.stringify(data), 'application/vnd.myscript.jiix');
+      }
     });
   }
 
@@ -104,14 +103,20 @@ class Editor extends Component {
     //     .replace('\\widehat', '\\hat')
     //     .replace(new RegExp('(align.{1})', 'g'), 'aligned');
     // }
-    editorElement.addEventListener('mouseup', () => {
-      timestamp = Date.now();
-    });
+    // editorElement.addEventListener('mouseup', () => {
+    //   timestamp = Date.now();
+    // });
     editorElement.addEventListener('exported', (evt) => {
       const { exports } = evt.detail;
       if (exports && exports['application/x-latex']) {
-        const toImport = exports['application/vnd.myscript.jiix'];
-        window.socket.emit('data', { data: toImport, timestamp });
+        if (!isImported) {
+          const toImport = exports['application/vnd.myscript.jiix'];
+          window.socket.emit('data', JSON.parse(toImport));
+        } else {
+          isImported = false;
+          return;
+        }
+        // isImported = true;
         convertElement.disabled = false;
         // katex.render(cleanLatex(exports['application/x-latex']),  resultElement);
         resultElement.innerHTML = `<span>${exports['application/x-latex']}</span>`;
