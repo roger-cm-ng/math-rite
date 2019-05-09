@@ -15,20 +15,25 @@ class Header extends Component {
     const { history } = this.props;
     return (
       <div className={css.header}>
+        <div className={css.logo}>
+          <span className={css.math}>Math</span>
+          <span className={css.rite}>Rite</span>
+        </div>
+        <div className={css.separator} />
         <ul className={css.shell}>
           <li
             className={css.nav}
             role="presentation"
             onClick={() => { history.push('/about'); }}
           >
-            MATH-RITE
+            Join
           </li>
           <li
             className={css.nav}
             role="presentation"
             onClick={() => { history.push('/whiteboard'); }}
           >
-            WHITEBOARD
+            Board
           </li>
         </ul>
       </div>
