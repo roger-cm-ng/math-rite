@@ -1,9 +1,11 @@
 /* global window */
 import React, { Component } from 'react';
 import * as MyScriptJS from 'myscript';
+import shortid from 'shortid';
 import './button.css';
 import './diagram.css';
 import 'myscript/dist/myscript.min.css';
+
 
 const editorStyle = {
   minWidth: '100px',
@@ -18,8 +20,7 @@ const result = {
   textAlign: 'center'
 };
 
-// const currentData = {};
-let isImported = false;
+let currentId;
 class Editor extends Component {
   constructor(props) {
     super(props);
@@ -29,11 +30,16 @@ class Editor extends Component {
     this.redoBtnRef = React.createRef();
     this.convertBtnRef = React.createRef();
     this.resultRef = React.createRef();
-    window.socket.on('data', (data) => {
+    currentId = shortid.generate();
+    window.socket.on('data', ({ data, id }) => {
+      console.log('data received');
+      if (id === currentId) {
+        return;
+      }
       const editorElement = this.editorRef.current;
-
       if (editorElement && editorElement.editor) {
-        isImported = true;
+        currentId = id;
+        console.log('data updated');
         // eslint-disable-next-line no-underscore-dangle
         editorElement.editor.import_(JSON.stringify(data), 'application/vnd.myscript.jiix');
       }
@@ -103,20 +109,18 @@ class Editor extends Component {
     //     .replace('\\widehat', '\\hat')
     //     .replace(new RegExp('(align.{1})', 'g'), 'aligned');
     // }
-    // editorElement.addEventListener('mouseup', () => {
-    //   timestamp = Date.now();
-    // });
+    editorElement.addEventListener('mouseup', () => {
+      currentId = shortid.generate();
+    });
     editorElement.addEventListener('exported', (evt) => {
+      console.log('exported');
       const { exports } = evt.detail;
       if (exports && exports['application/x-latex']) {
-        if (!isImported) {
-          const toImport = exports['application/vnd.myscript.jiix'];
-          window.socket.emit('data', JSON.parse(toImport));
-        } else {
-          isImported = false;
-          // return;
-        }
-        // isImported = true;
+        const toImport = exports['application/vnd.myscript.jiix'];
+        window.socket.emit('data', {
+          data: JSON.parse(toImport),
+          id: currentId
+        });
         convertElement.disabled = false;
         // katex.render(cleanLatex(exports['application/x-latex']),  resultElement);
         resultElement.innerHTML = `<span>${exports['application/x-latex']}</span>`;
@@ -135,15 +139,21 @@ class Editor extends Component {
       }
     });
     undoElement.addEventListener('click', () => {
+      currentId = shortid.generate();
       editorElement.editor.undo();
     });
     redoElement.addEventListener('click', () => {
+      currentId = shortid.generate();
       editorElement.editor.redo();
     });
     clearElement.addEventListener('click', () => {
+      console.log('cleared');
+      currentId = shortid.generate();
       editorElement.editor.clear();
     });
     convertElement.addEventListener('click', () => {
+      console.log('convert');
+      currentId = shortid.generate();
       editorElement.editor.convert();
     });
 
