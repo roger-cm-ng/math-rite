@@ -112,6 +112,9 @@ class Editor extends Component {
     editorElement.addEventListener('mouseup', () => {
       currentId = shortid.generate();
     });
+    editorElement.addEventListener('touchend', () => {
+      currentId = shortid.generate();
+    });
     editorElement.addEventListener('exported', (evt) => {
       console.log('exported');
       const { exports } = evt.detail;
@@ -147,12 +150,10 @@ class Editor extends Component {
       editorElement.editor.redo();
     });
     clearElement.addEventListener('click', () => {
-      console.log('cleared');
       currentId = shortid.generate();
       editorElement.editor.clear();
     });
     convertElement.addEventListener('click', () => {
-      console.log('convert');
       currentId = shortid.generate();
       editorElement.editor.convert();
     });
